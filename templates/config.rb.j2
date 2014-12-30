@@ -1,0 +1,97 @@
+# encoding: utf-8
+
+##
+# Backup v4.x Configuration
+#
+# Documentation: http://meskyanichi.github.io/backup
+# Issue Tracker: https://github.com/meskyanichi/backup/issues
+
+{% if backup_notifier.slack is defined %}
+Notifier::Slack.defaults do |slack|
+  slack.on_success = {{ backup_notifier.slack.on_success }}
+  slack.on_warning = {{ backup_notifier.slack.on_warning }}
+  slack.on_failure = {{ backup_notifier.slack.on_failure }}
+
+  # The integration token
+  slack.webhook_url = '{{ backup_notifier.slack.webhook_url }}'
+
+  # The channel to which messages will be sent
+  slack.channel = '{{ backup_notifier.slack.channel }}'
+
+  # The username to display along with the notification
+  slack.username = '{{ backup_notifier.slack.username }}'
+end
+{% endif %}
+
+{% if backup_notifier.mail is defined %}
+Notifier::Mail.defaults do |mail|
+  mail.on_success           = {{ backup_notifier.mail.on_success }}
+  mail.on_warning           = true
+  mail.on_failure           = true
+  mail.from                 = '{{ backup_notifier.mail.from }}'
+  mail.to                   = '{{ backup_notifier.mail.to }}'
+  mail.address              = '{{ backup_notifier.mail.address }}'
+  mail.port                 = {{ backup_notifier.mail.port }}
+  mail.domain               = '{{ backup_notifier.mail.domain }}'
+  mail.user_name            = '{{ backup_notifier.mail.user_name }}'
+  mail.password             = '{{ backup_notifier.mail.password }}'
+  mail.authentication       = '{{ backup_notifier.mail.authentication }}'
+  mail.encryption           = {{ backup_notifier.mail.encryption }}
+end
+{% endif %}
+
+{% if backup_databases.PostgreSQL is defined %}
+Database::PostgreSQL.defaults do |db|
+  db.username           = "{{ backup_databases.PostgreSQL.username }}"
+  db.password           = "{{ backup_databases.PostgreSQL.password }}"
+  db.host               = "{{ backup_databases.PostgreSQL.host }}"
+  db.port               = {{ backup_databases.PostgreSQL.port }}
+  db.additional_options = ["-xc", "-E=utf8"]
+end
+{% endif %}
+
+{% if backup_databases.MongoDB is defined %}
+Database::MongoDB.defaults do |db|
+  db.username           = "{{ backup_databases.MongoDB.username }}"
+  db.password           = "{{ backup_databases.MongoDB.password }}"
+  db.host               = "{{ backup_databases.MongoDB.host }}"
+  db.port               = {{ backup_databases.MongoDB.port }}
+  db.ipv6               = {{ backup_databases.MongoDB.ipv6 }}
+  db.lock               = {{ backup_databases.MongoDB.lock }}
+  db.additional_options = {{ backup_databases.MongoDB.additional_options }}
+end
+{% endif %}
+
+{% if backup_encryption.OpenSSL is defined %}
+Encryptor::OpenSSL.defaults do |encryption|
+  encryption.password = '{{ backup_encryption.OpenSSL.password }}'
+  encryption.base64   = {{ backup_encryption.OpenSSL.base64 }}
+  encryption.salt     = {{ backup_encryption.OpenSSL.salt }}
+end
+{% endif %}
+
+{% if backup_store.SFTP is defined %}
+Storage::SFTP.defaults do |server|
+  server.username   = '{{ backup_store.SFTP.username }}'
+  server.password   = '{{ backup_store.SFTP.password }}'
+  server.ip         = '{{ backup_store.SFTP.ip }}'
+  server.port       = {{ backup_store.SFTP.port }}
+  server.path       = '{{ backup_store.SFTP.path }}'
+end
+{% endif %}
+
+preconfigure 'Template' do
+  compress_with Gzip
+
+{% if backup_notifier.mail is defined %}
+  notify_by Mail
+{% endif %}
+
+{% if backup_notifier.slack is defined %}
+  notify_by Slack
+{% endif %}
+
+{% if backup_encryption.OpenSSL is defined %}
+  encrypt_with OpenSSL
+{% endif %}
+end

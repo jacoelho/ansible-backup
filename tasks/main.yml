@@ -1,0 +1,7 @@
+---
+
+  - include: packages.yml
+    tags: [ 'backup_packages' ]
+
+  - include: configure.yml
+    tags: [ 'backup_configure' ]

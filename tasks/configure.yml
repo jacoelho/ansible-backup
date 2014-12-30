@@ -1,0 +1,36 @@
+---
+  
+  - name: Create backup config directory
+    file:
+      path: "{{ item }}"
+      owner: root
+      group: root
+      state: directory
+    with_items:
+      - "{{ backup_setup.config_dir}}"
+      - "{{ backup_setup.config_dir}}/models"
+
+  - name: Configure backups config
+    template:
+      src: config.rb.j2
+      dest: "{{ backup_setup.config_dir }}/config.rb"
+      owner: root
+      group: root
+      mode: 0600
+
+  - name: Configure backups models
+    template:
+      src: model.rb.j2
+      dest: "{{ backup_setup.config_dir }}/models/{{ item.key }}.rb"
+      owner: root
+      group: root
+      mode: 0600
+    with_dict: backup_jobs
+
+  - name: Configure cron
+    template:
+      src: cron.j2
+      dest: "/etc/cron.d/backup"
+      owner: root
+      group: root
+      mode: 755

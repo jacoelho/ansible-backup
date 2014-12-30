@@ -1,0 +1,22 @@
+---
+
+  - name: Install ruby
+    apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+    with_items:
+      - ruby
+      - ruby-dev
+    when: ansible_os_family == "Debian"
+
+  - name: Install compiler
+    apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+    with_items:
+      - autoconf
+      - binutils-doc
+      - bison
+      - build-essential
+      - flex
+      - gettext
+      - ncurses-dev
+
+  - name: Install gem backup
+    gem: name=backup state=latest user_install=false

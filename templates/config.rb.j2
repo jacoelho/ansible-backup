@@ -80,7 +80,7 @@ Storage::SFTP.defaults do |server|
 end
 {% endif %}
 
-preconfigure 'Template' do
+preconfigure 'TemplateModel' do
   compress_with Gzip
 
 {% if backup_notifier.mail is defined %}

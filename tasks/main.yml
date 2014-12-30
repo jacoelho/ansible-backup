@@ -1,6 +1,7 @@
 ---
 
   - include: packages.yml
+    when: ansible_os_family == "Debian"
     tags: [ 'backup_packages' ]
 
   - include: configure.yml

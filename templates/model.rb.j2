@@ -1,6 +1,6 @@
 {% set backup = item.value -%}
 
-Template.new(:{{ item.key }}, "{{ microservice_name }} {{ microservice_env }}") do
+TemplateModel.new(:{{ item.key }}, "{{ microservice_name }} {{ microservice_env }}") do
   split_into_chunks_of {{ backup_config_chunks }}
 
   store_with SFTP do |server|
@@ -34,9 +34,14 @@ end
 
 {% if backup.mongodb is defined %}
 {% for database in backup.mongodb %}
+{% if database == ":all" %}
+database MongoDB, {{ database }} do |db|
+end
+{% else %}
 database MongoDB, :{{ database }} do |db|
   db.name               = "{{ database }}"
 end
+{% endif %}
 {% endfor %}
 {% endif %}
 

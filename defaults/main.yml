@@ -1,1 +1,24 @@
 ---
+
+backup_setup:
+  config_dir: '/etc/backup'
+  tmp_dir: '/tmp/backup'
+  data_dir: '/var/lib/backup'
+  log_dir: '/var/log/backup'
+
+backup_config_chunks: 250
+
+backup_databases:
+  PostgreSQL:
+    host: "localhost"
+    port: 5432
+    username: "postgres"
+    password: "postgres"
+  MongoDB:
+    username: 'admin'
+    password: 'password'
+    host: 'localhost'
+    port: 27017
+    ipv6: 'false'
+    lock: 'true'
+    additional_options: "[]"

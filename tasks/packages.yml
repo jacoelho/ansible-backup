@@ -1,11 +1,22 @@
 ---
+  
+  - name: ruby | Get current version
+    shell: "dpkg-query -W -f='${Status}' ruby 2>/dev/null | grep -c 'ok installed'"
+    ignore_errors: true
+    register: ruby_version
 
-  - name: Install ruby
-    apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
-    with_items:
-      - ruby
-      - ruby-dev
-    when: ansible_os_family == "Debian"
+  - name: ruby-dev | Get current version
+    shell: "dpkg-query -W -f='${Status}' ruby-dev 2>/dev/null | grep -c 'ok installed'"
+    ignore_errors: true
+    register: rubydev_version
+
+  - name: ruby | Install 
+    apt: pkg=ruby state=installed update_cache=yes cache_valid_time=3600
+    when: ruby_version.rc == 1
+
+  - name: ruby-dev | Install 
+    apt: pkg=ruby-dev state=installed update_cache=yes cache_valid_time=3600
+    when: rubydev_version.rc == 1 
 
   - name: Install compiler
     apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600

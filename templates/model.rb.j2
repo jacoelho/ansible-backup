@@ -1,8 +1,6 @@
 {% set backup = item.value -%}
 
 TemplateModel.new(:{{ item.key }}, "{{ microservice_name }} {{ microservice_env }}") do
-  split_into_chunks_of {{ backup_config_chunks }}
-
   store_with SFTP do |server|
     server.keep       = "{{ backup.keep }}"
   end

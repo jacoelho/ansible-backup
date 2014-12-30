@@ -82,6 +82,7 @@ end
 
 preconfigure 'TemplateModel' do
   compress_with Gzip
+  split_into_chunks_of {{ backup_config_chunks }}
 
 {% if backup_notifier.mail is defined %}
   notify_by Mail

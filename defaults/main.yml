@@ -1,6 +1,7 @@
 ---
 
 backup_setup:
+  user: 'root'
   config_dir: '/etc/backup'
   tmp_dir: '/tmp/backup'
   data_dir: '/var/lib/backup'
@@ -22,3 +23,14 @@ backup_databases:
     ipv6: 'false'
     lock: 'true'
     additional_options: "[]"
+
+backup_encryption: []
+
+backup_store: []
+
+backup_notifier: []
+
+backup_jobs:
+  job:
+    schedule: ""
+    keep: ""

@@ -18,27 +18,27 @@ TemplateModel.new(:{{ item.key }}, "{{ microservice_name }} {{ microservice_env 
 
 {% if backup.postgresql is defined %}
 {% for database in backup.postgresql %}
-database PostgreSQL, :{{ database }} do |db|
-  db.name               = "{{ database }}"
-end
+  database PostgreSQL, :{{ database }} do |db|
+    db.name               = "{{ database }}"
+  end
 
 {% endfor %}
-# backup users/roles/etc
-database PostgreSQL, :all do |db|
-  db.name               = :all
-  db.additional_options = ["--globals-only"]
-end
+  # backup users/roles/etc
+  database PostgreSQL, :all do |db|
+    db.name               = :all
+    db.additional_options = ["--globals-only"]
+  end
 {% endif %}
 
 {% if backup.mongodb is defined %}
 {% for database in backup.mongodb %}
 {% if database == ":all" %}
-database MongoDB, {{ database }} do |db|
-end
+  database MongoDB, {{ database }} do |db|
+  end
 {% else %}
-database MongoDB, :{{ database }} do |db|
-  db.name               = "{{ database }}"
-end
+  database MongoDB, :{{ database }} do |db|
+    db.name               = "{{ database }}"
+  end
 {% endif %}
 {% endfor %}
 {% endif %}

@@ -6,6 +6,7 @@
 # Documentation: http://meskyanichi.github.io/backup
 # Issue Tracker: https://github.com/meskyanichi/backup/issues
 
+{% if backup_notifier is defined %}
 {% if backup_notifier.slack is defined %}
 Notifier::Slack.defaults do |slack|
   slack.on_success = {{ backup_notifier.slack.on_success }}
@@ -38,6 +39,7 @@ Notifier::Mail.defaults do |mail|
   mail.authentication       = '{{ backup_notifier.mail.authentication }}'
   mail.encryption           = {{ backup_notifier.mail.encryption }}
 end
+{% endif %}
 {% endif %}
 
 {% if backup_databases.PostgreSQL is defined %}

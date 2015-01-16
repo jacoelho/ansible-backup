@@ -1,8 +1,12 @@
 ---
+  
+  - shell: echo {{ backup_jobs}}
+    when: backup_jobs is defined and backup_jobs != ""
 
   - include: packages.yml
-    when: ansible_os_family == "Debian"
+    when: ansible_os_family == "Debian" and backup_jobs is defined
     tags: [ 'backup_packages' ]
 
   - include: configure.yml
+    when: backup_jobs is defined
     tags: [ 'backup_configure' ]

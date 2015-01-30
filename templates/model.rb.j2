@@ -10,9 +10,11 @@ TemplateModel.new(:{{ item.key }}, "{{ microservice_name }} {{ microservice_env 
 {% for archive in backup.archives.add %}
     archive.add '{{ archive }}'
 {% endfor %}
+{% if backup.archives.exclude is defined %}
 {% for archive in backup.archives.exclude %}
     archive.exclude '{{ archive }}'
 {% endfor %}
+{% endif %}
   end
 {% endif %}
 

@@ -1,22 +1,9 @@
 ---
-  
-  - name: ruby | Get current version
-    shell: "dpkg-query -W -f='${Status}' ruby 2>/dev/null | grep -c 'ok installed'"
-    ignore_errors: true
-    register: ruby_version
+  - name: ruby | Install
+    apt: pkg={{ backup_ruby_package }} state=installed update_cache=yes cache_valid_time=3600
 
-  - name: ruby-dev | Get current version
-    shell: "dpkg-query -W -f='${Status}' ruby-dev 2>/dev/null | grep -c 'ok installed'"
-    ignore_errors: true
-    register: rubydev_version
-
-  - name: ruby | Install 
-    apt: pkg=ruby state=installed update_cache=yes cache_valid_time=3600
-    when: ruby_version.rc == 1
-
-  - name: ruby-dev | Install 
-    apt: pkg=ruby-dev state=installed update_cache=yes cache_valid_time=3600
-    when: rubydev_version.rc == 1 
+  - name: ruby-dev | Install
+    apt: pkg={{ backup_ruby_dev_package }} state=installed update_cache=yes cache_valid_time=3600
 
   - name: Install compiler
     apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600

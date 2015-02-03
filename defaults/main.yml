@@ -34,3 +34,7 @@ backup_jobs:
   job:
     schedule: ""
     keep: ""
+
+backup_ruby_package: ruby
+backup_ruby_dev_package: ruby-dev
+

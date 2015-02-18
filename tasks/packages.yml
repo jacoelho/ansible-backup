@@ -1,9 +1,11 @@
 ---
   - name: ruby | Install
     apt: pkg={{ backup_ruby_package }} state=installed update_cache=yes cache_valid_time=3600
+    tags: [ backup_ruby ]
 
   - name: ruby-dev | Install
     apt: pkg={{ backup_ruby_dev_package }} state=installed update_cache=yes cache_valid_time=3600
+    tags: [ backup_ruby ]
 
   - name: Install compiler
     apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600

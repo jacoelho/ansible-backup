@@ -54,8 +54,12 @@ end
 
 {% if backup_databases.MongoDB is defined %}
 Database::MongoDB.defaults do |db|
+{% if backup_databases.MongoDB.username is defined %}
   db.username           = "{{ backup_databases.MongoDB.username }}"
+{% endif %}
+{% if backup_databases.MongoDB.password is defined %}
   db.password           = "{{ backup_databases.MongoDB.password }}"
+{% endif %}
   db.host               = "{{ backup_databases.MongoDB.host }}"
   db.port               = {{ backup_databases.MongoDB.port }}
   db.ipv6               = {{ backup_databases.MongoDB.ipv6 }}

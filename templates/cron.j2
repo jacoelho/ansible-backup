@@ -2,5 +2,7 @@ SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 {% for key, value in backup_jobs|dictsort %}
-{{ value.schedule }} {{backup_setup.user }} nice -n 20 /usr/local/bin/backup perform -t {{ key }} --config-file {{ backup_setup.config_dir }}/config.rb --data-path {{ backup_setup.data_dir }} --tmp-path {{ backup_setup.tmp_dir }} --log-path {{ backup_setup.log_dir }} > /dev/null 2>&1
+{% if value.schedule is defined -%}
+{{ value.schedule }} {{ backup_setup.user }} nice -n 20 /usr/local/bin/backup perform -t {{ key }} --config-file {{ backup_setup.config_dir }}/config.rb --data-path {{ backup_setup.data_dir }} --tmp-path {{ backup_setup.tmp_dir }} --log-path {{ backup_setup.log_dir }} > /dev/null 2>&1
+{% endif %}
 {% endfor %}

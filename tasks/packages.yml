@@ -1,22 +1,33 @@
 ---
-  - name: ruby | Install
-    apt: pkg={{ backup_ruby_package }} state=installed update_cache=yes cache_valid_time=3600
-    tags: [ backup_ruby ]
 
-  - name: ruby-dev | Install
-    apt: pkg={{ backup_ruby_dev_package }} state=installed update_cache=yes cache_valid_time=3600
-    tags: [ backup_ruby ]
+- name: ruby | Install
+  apt:
+    pkg:              "{{ item }}"
+    state:            installed
+    update_cache:     yes
+    cache_valid_time: 3600
+  with_items:
+    - "{{ backup_ruby_package }}"
+    - "{{ backup_ruby_dev_package }}"
+  tags: [ backup_ruby ]
 
-  - name: Install compiler
-    apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
-    with_items:
-      - autoconf
-      - binutils-doc
-      - bison
-      - build-essential
-      - flex
-      - gettext
-      - ncurses-dev
+- name: build utils | install
+  apt:
+    pkg:              "{{ item }}"
+    state:            installed
+    update_cache:     yes
+    cache_valid_time: 3600
+  with_items:
+    - autoconf
+    - binutils-doc
+    - bison
+    - build-essential
+    - flex
+    - gettext
+    - ncurses-dev
 
-  - name: Install gem backup
-    gem: name=backup state=latest user_install=false
+- name: Install gem backup
+  gem:
+    name:         backup
+    state:        present
+    user_install: false

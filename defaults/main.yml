@@ -1,11 +1,11 @@
 ---
 
 backup_setup:
-  user: 'root'
+  user:       'root'
   config_dir: '/etc/backup'
-  tmp_dir: '/tmp/backup'
-  data_dir: '/var/lib/backup'
-  log_dir: '/var/log/backup'
+  tmp_dir:    '/tmp/backup'
+  data_dir:   '/var/lib/backup'
+  log_dir:    '/var/log/backup'
 
 backup_config_chunks: 250
 

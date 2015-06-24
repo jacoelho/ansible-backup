@@ -86,6 +86,15 @@ Storage::SFTP.defaults do |server|
 end
 {% endif %}
 
+{% if backup_store.S3 is defined %}
+Storage::S3.defaults do |s3|
+  s3.access_key_id     = {{ backup_store.S3.access_key_id }}
+  s3.secret_access_key = {{ backup_store.S3.secret_access_key }}
+  s3.region            = {{ backup_store.S3.region }}
+  s3.bucket            = {{ backup_store.S3.bucket }}
+end
+{% endif %}
+
 preconfigure 'TemplateModel' do
   compress_with Gzip
   split_into_chunks_of {{ backup_config_chunks }}

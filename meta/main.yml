@@ -1,14 +1,14 @@
 ---
-
 galaxy_info:
   author: José Coelho
   description: Install backup gem and provide basic setup
-  min_ansible_version: 1.4
   license: MIT
+  min_ansible_version: 1.4
   platforms:
-    - name: Ubuntu
-      versions:
-        - trusty
+  - name: Ubuntu
+    versions:
+    - trusty
   categories:
-    - system
+  - system
 dependencies: []
+

@@ -54,8 +54,12 @@ end
 
 {% if backup_databases.MongoDB is defined %}
 Database::MongoDB.defaults do |db|
+{% if backup_databases.MongoDB.username is defined %}
   db.username           = "{{ backup_databases.MongoDB.username }}"
+{% endif %}
+{% if backup_databases.MongoDB.password is defined %}
   db.password           = "{{ backup_databases.MongoDB.password }}"
+{% endif %}
   db.host               = "{{ backup_databases.MongoDB.host }}"
   db.port               = {{ backup_databases.MongoDB.port }}
   db.ipv6               = {{ backup_databases.MongoDB.ipv6 }}
@@ -79,6 +83,15 @@ Storage::SFTP.defaults do |server|
   server.ip         = '{{ backup_store.SFTP.ip }}'
   server.port       = {{ backup_store.SFTP.port }}
   server.path       = '{{ backup_store.SFTP.path }}'
+end
+{% endif %}
+
+{% if backup_store.S3 is defined %}
+Storage::S3.defaults do |s3|
+  s3.access_key_id     = {{ backup_store.S3.access_key_id }}
+  s3.secret_access_key = {{ backup_store.S3.secret_access_key }}
+  s3.region            = {{ backup_store.S3.region }}
+  s3.bucket            = {{ backup_store.S3.bucket }}
 end
 {% endif %}
 

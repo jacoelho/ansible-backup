@@ -5,9 +5,11 @@ TemplateModel.new(:{{ item.key }}, "{{ microservice_name }} {{ microservice_env 
     server.keep       = "{{ backup.keep }}"
   end
 
+{% if backup_store.S3 is defined %}
   store_with S3 do |s3|
     s3.keep       = "{{ backup.keep }}"
   end
+{% endif %}
 
 {% if backup.archives is defined %}
   archive :archive do |archive|

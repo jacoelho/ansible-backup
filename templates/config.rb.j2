@@ -88,10 +88,11 @@ end
 
 {% if backup_store.S3 is defined %}
 Storage::S3.defaults do |s3|
-  s3.access_key_id     = {{ backup_store.S3.access_key_id }}
-  s3.secret_access_key = {{ backup_store.S3.secret_access_key }}
-  s3.region            = {{ backup_store.S3.region }}
-  s3.bucket            = {{ backup_store.S3.bucket }}
+  s3.access_key_id     = '{{ backup_store.S3.access_key_id }}'
+  s3.secret_access_key = '{{ backup_store.S3.secret_access_key }}'
+  s3.region            = '{{ backup_store.S3.region }}'
+  s3.bucket            = '{{ backup_store.S3.bucket }}'
+  s3.path              = '{{ backup_store.S3.path }}'
 end
 {% endif %}
 

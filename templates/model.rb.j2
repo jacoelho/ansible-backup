@@ -1,9 +1,11 @@
 {% set backup = item.value -%}
 
 TemplateModel.new(:{{ item.key }}, "{{ microservice_name }} {{ microservice_env }}") do
+{% if backup_store.SFTP is defined %}
   store_with SFTP do |server|
     server.keep       = "{{ backup.keep }}"
   end
+{% endif %}
 
 {% if backup_store.S3 is defined %}
   store_with S3 do |s3|
